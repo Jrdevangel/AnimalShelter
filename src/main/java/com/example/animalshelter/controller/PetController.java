@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/pets")
+@RequestMapping("/api/v1")
 @CrossOrigin(origins = "*")
 
 
@@ -21,24 +21,24 @@ public class PetController {
     @Autowired
     private PetService petService;
 
-    @GetMapping
+    @GetMapping("/pet")
     public List<Pet> getAllPets() {
         return petService.getAllPets();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/pet/{id}")
     public ResponseEntity<Pet> getPetById(@PathVariable Long id) {
         Optional<Pet> pet = petService.getPetById(id);
         return pet.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @PostMapping
+    @PostMapping(path = "/pet")
     public ResponseEntity<Pet> createPet(@RequestBody Pet pet) {
         Pet savedPet = petService.savePet(pet);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedPet);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/pet/{id}")
     public ResponseEntity<Pet> updatePet(@PathVariable Long id, @RequestBody Pet pet) {
         if (!petService.getPetById(id).isPresent()) {
             return ResponseEntity.notFound().build();
@@ -48,7 +48,7 @@ public class PetController {
         return ResponseEntity.ok(updatedPet);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/pet/{id}")
     public ResponseEntity<Void> deletePet(@PathVariable Long id) {
         if (!petService.getPetById(id).isPresent()) {
             return ResponseEntity.notFound().build();
@@ -57,8 +57,8 @@ public class PetController {
         return ResponseEntity.noContent().build();
     }
 
-
-
 }
+
+
 
 
