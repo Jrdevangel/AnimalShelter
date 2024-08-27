@@ -14,24 +14,20 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-@Table(name = "Pet")
-public class Pet {
+@Table(name = "donation")
+public class Donation {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "Pet_id")
+    @Column(name = "donation_id")
     private Long id;
 
-    @Column(name = "name")
-    private String name;
+    @Column(name = "amount")
+    private double amount;
 
-    @Column(name = "age")
-    private int age;
+    @Column(name = "donor_name")
+    private String donorName;
 
-    @Column(name = "breed")
-    private String breed;
-
-    @Column(name = "gender")
-    private String gender;
-
+    @Column(name = "date")
+    private String date; // Puedes cambiar esto a LocalDate si prefieres manejar fechas correctamente
 }
