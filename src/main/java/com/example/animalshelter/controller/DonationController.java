@@ -19,7 +19,7 @@ import com.example.animalshelter.model.Donation;
 import com.example.animalshelter.services.DonationService;
 
 @RestController
-@RequestMapping("/donations")
+@RequestMapping("/")
 @CrossOrigin(origins = "*")
 public class DonationController {
 
@@ -30,13 +30,13 @@ public class DonationController {
         this.donationService = donationService;
     }
 
-    @PostMapping
+    @PostMapping("/donations")
     public ResponseEntity<Donation> createDonation(@RequestBody Donation newDonation) {
         Donation donation = donationService.createDonation(newDonation);
         return new ResponseEntity<>(donation, HttpStatus.CREATED);
     }
 
-    @GetMapping
+    @GetMapping("/donations")
     public ResponseEntity<List<Donation>> getAllDonations() {
         List<Donation> donations = donationService.getAllDonations();
         return new ResponseEntity<>(donations, HttpStatus.OK);

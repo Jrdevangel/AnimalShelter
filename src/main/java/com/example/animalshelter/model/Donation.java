@@ -1,5 +1,7 @@
 package com.example.animalshelter.model;
 
+import java.time.LocalDate;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -29,5 +31,5 @@ public class Donation {
     private String donorName;
 
     @Column(name = "date")
-    private String date; // Puedes cambiar esto a LocalDate si prefieres manejar fechas correctamente
+    private LocalDate date; 
 }
