@@ -26,6 +26,7 @@ public class JwtService {
         return getToken(new HashMap<>(),user);
     }
 
+    @SuppressWarnings("deprecation")
     public String getToken(Map<String, Object> claims, UserDetails user){
 
         return Jwts
@@ -53,6 +54,7 @@ public class JwtService {
         return claimsResolver.apply(claims);
     }
 
+    @SuppressWarnings("deprecation")
     private Claims getAllClaims(String token) {
         return Jwts
                 .parser()
