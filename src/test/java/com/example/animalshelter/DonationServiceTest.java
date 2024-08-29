@@ -30,8 +30,6 @@ public class DonationServiceTest {
 
 	@BeforeEach
 	public void setup() {
-		// No need to call MockitoAnnotations.openMocks(this) as
-		// @ExtendWith(MockitoExtension.class) handles it.
 	}
 
 	@Test
