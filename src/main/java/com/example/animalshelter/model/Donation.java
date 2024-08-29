@@ -31,5 +31,5 @@ public class Donation {
     private String donorName;
 
     @Column(name = "date")
-    private LocalDate date; 
+    private LocalDate date;
 }

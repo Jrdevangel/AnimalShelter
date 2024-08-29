@@ -1,12 +1,13 @@
 package com.example.animalshelter.services;
 
-import com.example.animalshelter.model.Pet;
-import com.example.animalshelter.repositories.IPetRepository;
+import java.util.List;
+import java.util.NoSuchElementException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.NoSuchElementException;
+import com.example.animalshelter.model.Pet;
+import com.example.animalshelter.repositories.IPetRepository;
 
 @Service
 public class PetService {
@@ -18,7 +19,7 @@ public class PetService {
         this.iPetRepository = iPetRepository;
     }
 
-    public Pet createPet(Pet newPet) {  // Cambiado 'createPets' a 'createPet'
+    public Pet createPet(Pet newPet) {
         return iPetRepository.save(newPet);
     }
 
