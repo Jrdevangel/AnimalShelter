@@ -14,19 +14,19 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-@Table(name = "pet") // Asegúrate de que el nombre de la tabla coincida con tu base de datos
+@Table(name = "pet")
 public class Pet {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "pet_id") // Asegúrate de que el nombre de la columna coincida con tu base de datos
+    @Column(name = "pet_id")
     private Long id;
 
     @Column(name = "name")
     private String name;
 
     @Column(name = "age")
-    private Integer age; // Cambiado a Integer para permitir valores nulos
+    private Integer age;
 
     @Column(name = "breed")
     private String breed;
