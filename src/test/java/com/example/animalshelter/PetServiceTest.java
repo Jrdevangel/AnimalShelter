@@ -83,10 +83,10 @@ public class PetServiceTest {
 
         when(iPetRepository.existsById(1L)).thenReturn(true);
 
-        // No retorno esperado, el método es void
+        
         petService.updatePet(updatedPet, 1L);
 
-        // Seteamos el ID para que coincida con el existente
+        
         updatedPet.setId(1L);
         verify(iPetRepository, times(1)).save(updatedPet);
     }
@@ -98,12 +98,12 @@ public class PetServiceTest {
 
         when(iPetRepository.existsById(1L)).thenReturn(false);
 
-        // Verifica que se lance la excepción esperada
+        
         assertThrows(NoSuchElementException.class, () -> {
             petService.updatePet(pet, 1L);
         });
 
-        // Verifica que el método save no se llame
+       
         verify(iPetRepository, times(0)).save(pet);
     }
 

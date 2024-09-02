@@ -1,52 +1,73 @@
 package com.example.animalshelter.config;
 
+import java.util.List;
 
-import com.example.animalshelter.jwt.AuthTokenFilter;
-import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import com.example.animalshelter.jwt.AuthTokenFilter;
 
 @Configuration
 @EnableWebSecurity
-@RequiredArgsConstructor
-public class WebSecurityConfig {
+public class WebSecurityConfig implements WebMvcConfigurer {
 
-    private final AuthenticationProvider authenticationProvider;
-    private final AuthTokenFilter authTokenFilter;
+        private final AuthTokenFilter authTokenFilter;
 
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http
-                .csrf(csrf ->
-                        csrf.disable())
-                .authorizeHttpRequests(authRequest ->
-                        authRequest
-                                .requestMatchers("/api/auth/**").permitAll()
-                                .requestMatchers("/api/test/all").permitAll()
-                                .requestMatchers("/api/test/user").hasAnyAuthority("ADMIN", "USER")
-                                .requestMatchers("/api/test/admin").hasAuthority("ADMIN")
-                                .requestMatchers("/api/v1/newPost").hasAuthority("ADMIN")
-                                .requestMatchers("/api/v1/post/delete/**").hasAuthority("ADMIN")
-                                .requestMatchers("/api/v1/post/update/**").hasAuthority("ADMIN")
-                                .requestMatchers("/api/v1/post/getAll").permitAll()
-                                .requestMatchers("/api/v1/donations").hasAnyAuthority("ADMIN", "USER")
-                                .requestMatchers("/api/v1/donations/delete/**").hasAuthority("ADMIN")
-                                .requestMatchers("/api/v1/donations/update/**").hasAuthority("ADMIN")
-                                .requestMatchers("/api/v1/donations/getAll").permitAll()
-                                .anyRequest().authenticated()
-                )
-                .sessionManagement(sessionManager ->
-                        sessionManager
-                                .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authenticationProvider(authenticationProvider)
-                .addFilterBefore(authTokenFilter, UsernamePasswordAuthenticationFilter.class)
-                .build();
-    }
+        public WebSecurityConfig(AuthTokenFilter authTokenFilter) {
+                this.authTokenFilter = authTokenFilter;
+        }
+
+        @Bean
+        public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+                http
+                                // Configuración de CORS
+                                .cors(cors -> cors
+                                                .configurationSource(request -> {
+                                                        var config = new org.springframework.web.cors.CorsConfiguration();
+                                                        config.setAllowedOrigins(List.of("http://localhost:3000")); // Ajusta
+                                                                                                                    // esto
+                                                                                                                    // según
+                                                                                                                    // sea
+                                                                                                                    // necesario
+                                                        config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE",
+                                                                        "OPTIONS"));
+                                                        config.setAllowedHeaders(List.of("*"));
+                                                        config.setAllowCredentials(true);
+                                                        return config;
+                                                }))
+                                // Configuración de CSRF
+                                .csrf(csrf -> csrf.disable()) // Considera habilitar CSRF en producción
+                                // Configuración de rutas de acceso
+                                .authorizeHttpRequests(authorizeRequests -> authorizeRequests
+                                                .requestMatchers("/admin/**").hasRole("ADMIN")
+                                                .requestMatchers("/user/**").hasRole("USER")
+                                                .requestMatchers("/public/**").permitAll()
+                                                .anyRequest().authenticated())
+                                // Configuración de autenticación
+                                .formLogin(formLogin -> formLogin
+                                                .loginPage("/login") // Cambia la ruta de inicio de sesión según sea
+                                                                     // necesario
+                                                .permitAll())
+                                .logout(logout -> logout
+                                                .permitAll()) // Permitir el cierre de sesión
+                                // Añadir filtro JWT
+                                .addFilterBefore(authTokenFilter, UsernamePasswordAuthenticationFilter.class);
+
+                return http.build();
+        }
+
+        @Override
+        public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/**")
+                                .allowedOrigins("http://localhost:3000") // Ajusta esto al dominio de tu frontend
+                                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+                                .allowedHeaders("*")
+                                .allowCredentials(true);
+        }
 }
-

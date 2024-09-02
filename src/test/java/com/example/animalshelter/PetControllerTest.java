@@ -35,7 +35,7 @@ public class PetControllerTest {
 
     @Test
     public void testCreatePet() {
-        Pet pet = new Pet(); // Crea y configura tu objeto Pet
+        Pet pet = new Pet();
         when(petService.createPet(any(Pet.class))).thenReturn(pet);
 
         ResponseEntity<Pet> response = petController.createPet(pet);
@@ -47,7 +47,7 @@ public class PetControllerTest {
 
     @Test
     public void testGetAllPets() {
-        List<Pet> pets = Collections.singletonList(new Pet()); // Crea y configura tu lista de pets
+        List<Pet> pets = Collections.singletonList(new Pet());
         when(petService.getAllPets()).thenReturn(pets);
 
         ResponseEntity<List<Pet>> response = petController.getAllPets();
@@ -59,7 +59,7 @@ public class PetControllerTest {
 
     @Test
     public void testUpdatePet() {
-        Pet pet = new Pet(); // Crea y configura tu objeto Pet
+        Pet pet = new Pet();
         doNothing().when(petService).updatePet(any(Pet.class), anyLong());
 
         ResponseEntity<Pet> response = petController.updatePet(pet, 1L);
@@ -71,7 +71,7 @@ public class PetControllerTest {
 
     @Test
     public void testUpdatePetNotFound() {
-        Pet pet = new Pet(); // Crea y configura tu objeto Pet
+        Pet pet = new Pet();
         doThrow(new ResponseStatusException(HttpStatus.NOT_FOUND)).when(petService).updatePet(any(Pet.class),
                 anyLong());
 
