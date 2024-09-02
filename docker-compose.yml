@@ -1,14 +1,41 @@
 version: '3.8'
 
 services:
-  app:
+  backend:
     build:
-      context: .
+      context: . # Directorio donde está el Dockerfile del backend
       dockerfile: Dockerfile
     ports:
       - "8080:8080"
     environment:
       - SPRING_PROFILES_ACTIVE=dev
-    # Si necesitas una base de datos u otros servicios, añádelos aquí
-    # volumes:
-    #   - ./data:/data
+    depends_on:
+      - db
+    networks:
+      - app-network
+
+  frontend:
+    build:
+      context: ../frontend  # Ruta relativa al directorio del frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:80"  # Puerto en el que se expone el frontend
+    environment:
+      - REACT_APP_BACKEND_URL=http://localhost:8080  # URL del backend desde el frontend
+    networks:
+      - app-network
+
+  db:
+    image: mysql:8.0
+    container_name: db-container
+    environment:
+      - MYSQL_ROOT_PASSWORD=rootpassword
+      - MYSQL_DATABASE=animalshelter
+    ports:
+      - "3306:3306"  # Puerto en el que se expone la base de datos
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
