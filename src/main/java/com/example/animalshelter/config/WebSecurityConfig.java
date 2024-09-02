@@ -45,17 +45,10 @@ public class WebSecurityConfig implements WebMvcConfigurer {
                                 .csrf(csrf -> csrf.disable()) // Considera habilitar CSRF en producción
                                 // Configuración de rutas de acceso
                                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
-                                                .requestMatchers("/admin/**").hasRole("ADMIN")
-                                                .requestMatchers("/user/**").hasRole("USER")
-                                                .requestMatchers("/public/**").permitAll()
+                                                .requestMatchers("/api/auth/**").permitAll() // Permitir acceso sin
+                                                                                             // autenticación a las
+                                                                                             // rutas de autenticación
                                                 .anyRequest().authenticated())
-                                // Configuración de autenticación
-                                .formLogin(formLogin -> formLogin
-                                                .loginPage("/login") // Cambia la ruta de inicio de sesión según sea
-                                                                     // necesario
-                                                .permitAll())
-                                .logout(logout -> logout
-                                                .permitAll()) // Permitir el cierre de sesión
                                 // Añadir filtro JWT
                                 .addFilterBefore(authTokenFilter, UsernamePasswordAuthenticationFilter.class);
 
