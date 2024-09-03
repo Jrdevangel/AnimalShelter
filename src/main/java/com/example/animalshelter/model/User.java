@@ -20,8 +20,9 @@ import java.util.List;
 @Table(name = "user", uniqueConstraints = {@UniqueConstraint(columnNames = {"username"})})
 public class User implements UserDetails {
     @Id
-    @GeneratedValue
-    Integer id;
+    @GeneratedValue (strategy = GenerationType.IDENTITY)
+    private Long id;
+
     @Basic
     @Column(nullable = false)
     String username;
