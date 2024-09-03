@@ -25,40 +25,33 @@ public class WebSecurityConfig implements WebMvcConfigurer {
 
         @Bean
         public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-                http
-                                // Configuración de CORS
-                                .cors(cors -> cors
-                                                .configurationSource(request -> {
-                                                        var config = new org.springframework.web.cors.CorsConfiguration();
-                                                        config.setAllowedOrigins(List.of("http://localhost:3000")); // Ajusta
-                                                                                                                    // esto
-                                                                                                                    // según
-                                                                                                                    // sea
-                                                                                                                    // necesario
-                                                        config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE",
-                                                                        "OPTIONS"));
-                                                        config.setAllowedHeaders(List.of("*"));
-                                                        config.setAllowCredentials(true);
-                                                        return config;
-                                                }))
-                                // Configuración de CSRF
-                                .csrf(csrf -> csrf.disable()) // Considera habilitar CSRF en producción
-                                // Configuración de rutas de acceso
-                                .authorizeHttpRequests(authorizeRequests -> authorizeRequests
-                                                .requestMatchers("/api/auth/**").permitAll() // Permitir acceso sin
-                                                                                             // autenticación a las
-                                                                                             // rutas de autenticación
-                                                .anyRequest().authenticated())
-                                // Añadir filtro JWT
-                                .addFilterBefore(authTokenFilter, UsernamePasswordAuthenticationFilter.class);
+        http
+                .cors(cors -> cors
+                .configurationSource(request -> {
 
+        var config = new org.springframework.web.cors.CorsConfiguration();
+        config.setAllowedOrigins(List.of("http://localhost:3000"));
+        config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE",
+                                                                        "OPTIONS"));
+                                                                        
+        config.setAllowedHeaders(List.of("*"));
+        config.setAllowCredentials(true);
+
+                return config;
+        }))
+  
+                .csrf(csrf -> csrf.disable()) 
+                .authorizeHttpRequests(authorizeRequests -> authorizeRequests
+                .requestMatchers("/api/auth/**").permitAll()
+                .anyRequest().authenticated())
+                .addFilterBefore(authTokenFilter, UsernamePasswordAuthenticationFilter.class);
                 return http.build();
         }
 
         @Override
-        public void addCorsMappings(CorsRegistry registry) {
+        public void addCorsMappings(@SuppressWarnings("null") CorsRegistry registry) {
                 registry.addMapping("/**")
-                                .allowedOrigins("http://localhost:3000") // Ajusta esto al dominio de tu frontend
+                                .allowedOrigins("http://localhost:3000")
                                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                                 .allowedHeaders("*")
                                 .allowCredentials(true);
