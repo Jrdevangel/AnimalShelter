@@ -3,7 +3,6 @@ package com.example.animalshelter.services;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.animalshelter.model.Pet;
@@ -14,7 +13,6 @@ public class PetService {
 
     private final IPetRepository iPetRepository;
 
-    @Autowired
     public PetService(IPetRepository iPetRepository) {
         this.iPetRepository = iPetRepository;
     }
