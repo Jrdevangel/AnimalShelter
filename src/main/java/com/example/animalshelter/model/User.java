@@ -1,5 +1,4 @@
-package com.example.animalshelter.model;
-
+ package com.example.animalshelter.model;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,9 +19,8 @@ import java.util.List;
 @Table(name = "user", uniqueConstraints = {@UniqueConstraint(columnNames = {"username"})})
 public class User implements UserDetails {
     @Id
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
-    private Long id;
-
+    @GeneratedValue
+    Integer id;
     @Basic
     @Column(nullable = false)
     String username;
