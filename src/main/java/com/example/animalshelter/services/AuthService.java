@@ -2,6 +2,7 @@ package com.example.animalshelter.services;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -27,7 +28,7 @@ public class AuthService {
         try {
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(login.getUsername(), login.getPassword()));
-        } catch (Exception e) {
+        } catch (AuthenticationException e) {
             throw new RuntimeException("Invalid username or password");
         }
 
