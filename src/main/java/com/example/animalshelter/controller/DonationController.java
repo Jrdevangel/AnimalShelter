@@ -18,7 +18,7 @@ import com.example.animalshelter.model.Donation;
 import com.example.animalshelter.services.DonationService;
 
 @RestController
-@RequestMapping("/")
+@RequestMapping("/api/v1")
 @CrossOrigin(origins = "*")
 public class DonationController {
 

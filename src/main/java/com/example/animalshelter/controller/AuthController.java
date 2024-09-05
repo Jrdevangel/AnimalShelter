@@ -15,7 +15,7 @@ import com.example.animalshelter.services.AuthService;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/api/auth/signin")
 @RequiredArgsConstructor
 @CrossOrigin(origins = "*")
 public class AuthController {
