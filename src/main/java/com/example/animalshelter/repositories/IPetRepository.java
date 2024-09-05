@@ -1,8 +1,8 @@
 package com.example.animalshelter.repositories;
 
-import com.example.animalshelter.model.Pet;
 import org.springframework.data.repository.CrudRepository;
 
-public interface IPetRepository extends CrudRepository <Pet , Long >{
-}
+import com.example.animalshelter.model.Pet;
 
+public interface IPetRepository extends CrudRepository<Pet, Long> {
+}

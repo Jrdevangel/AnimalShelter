@@ -14,24 +14,23 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-@Table(name = "Pet")
+@Table(name = "pet")
 public class Pet {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "Pet_id")
+    @Column(name = "pet_id")
     private Long id;
 
     @Column(name = "name")
     private String name;
 
     @Column(name = "age")
-    private int age;
+    private Integer age;
 
     @Column(name = "breed")
     private String breed;
 
     @Column(name = "gender")
     private String gender;
-
 }
