@@ -72,7 +72,7 @@ public class WebSecurityConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins("http://172.19.48.1:3000")  // Cambia esto por la URL de tu frontend
+                .allowedOrigins("http://172.19.48.1:3000")
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS");
     }
 }
