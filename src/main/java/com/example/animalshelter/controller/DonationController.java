@@ -2,7 +2,6 @@ package com.example.animalshelter.controller;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -25,7 +24,6 @@ public class DonationController {
 
     private final DonationService donationService;
 
-    @Autowired
     public DonationController(DonationService donationService) {
         this.donationService = donationService;
     }
