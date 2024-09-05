@@ -1,41 +1,26 @@
 version: '3.8'
 
 services:
-  backend:
-    build:
-      context: . 
-      dockerfile: Dockerfile
+  db:
+    image: mysql:5.7
+    environment:
+      MYSQL_DATABASE: db_animalshelter
+      MYSQL_ROOT_PASSWORD: my_secure_password  # Cambia esto a una contraseña segura
+    ports:
+      - "3307:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+
+  app:
+    build: .
     ports:
       - "8080:8080"
     environment:
-      - SPRING_PROFILES_ACTIVE=dev
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/db_animalshelter
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: my_secure_password  # Asegúrate de que coincida con MYSQL_ROOT_PASSWORD
     depends_on:
       - db
-    networks:
-      - app-network
 
-  frontend:
-    build:
-      context: ../frontend  
-      dockerfile: Dockerfile
-    ports:
-      - "3000:80"  
-    environment:
-      - REACT_APP_BACKEND_URL=http://localhost:8080  
-    networks:
-      - app-network
-
-  db:
-    image: mysql:8.0
-    container_name: db-container
-    environment:
-      - MYSQL_ROOT_PASSWORD=rootpassword
-      - MYSQL_DATABASE=animalshelter
-    ports:
-      - "3306:3306" 
-    networks:
-      - app-network
-
-networks:
-  app-network:
-    driver: bridge
+volumes:
+  db_data:
