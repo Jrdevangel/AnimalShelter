@@ -25,6 +25,7 @@ public class WebSecurityConfig implements WebMvcConfigurer {
 
         @Bean
         public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+<<<<<<< HEAD
                 http
 
                                 .cors(cors -> cors
@@ -47,7 +48,28 @@ public class WebSecurityConfig implements WebMvcConfigurer {
                                                 .anyRequest().authenticated())
 
                                 .addFilterBefore(authTokenFilter, UsernamePasswordAuthenticationFilter.class);
+=======
+        http
+                .cors(cors -> cors
+                .configurationSource(request -> {
+>>>>>>> 074017a64b94f6bca783516a18d2a7c3f85de246
 
+        var config = new org.springframework.web.cors.CorsConfiguration();
+        config.setAllowedOrigins(List.of("http://localhost:3000"));
+        config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE",
+                                                                        "OPTIONS"));
+                                                                        
+        config.setAllowedHeaders(List.of("*"));
+        config.setAllowCredentials(true);
+
+                return config;
+        }))
+  
+                .csrf(csrf -> csrf.disable()) 
+                .authorizeHttpRequests(authorizeRequests -> authorizeRequests
+                .requestMatchers("/api/auth/**").permitAll()
+                .anyRequest().authenticated())
+                .addFilterBefore(authTokenFilter, UsernamePasswordAuthenticationFilter.class);
                 return http.build();
         }
 
